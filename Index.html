@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Real Data House</title>
+  <script src="https://js.paystack.co/v1/inline.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -81,11 +82,15 @@
     .whatsapp a:hover {
       background-color: #1ebc57;
     }
+    .logo {
+      max-width: 100px;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
   <header>
-    <img src="Logo.png" alt="Real Data House Logo" style="width: 100px; margin-bottom: 10px;">
+    <img src="Logo.png" alt="Real Data House Logo" class="logo">
     <h1>Real Data House</h1>
     <p class="tagline">Fast & Reliable Data Bundle Delivery in Ghana</p>
   </header>
@@ -104,15 +109,26 @@
         <label for="bundle">Data Bundle:</label>
         <select id="bundle" required>
           <option value="">--Choose Bundle--</option>
-          <option value="1GB">1GB - GHS 5</option>
-          <option value="2GB">2GB - GHS 9</option>
-          <option value="5GB">5GB - GHS 20</option>
+          <option value="5">1GB - GHS 5</option>
+          <option value="10">2GB - GHS 10</option>
+          <option value="14">3GB - GHS 14</option>
+          <option value="19">4GB - GHS 19</option>
+          <option value="23">5GB - GHS 23</option>
+          <option value="28">6GB - GHS 28</option>
+          <option value="36">8GB - GHS 36</option>
+          <option value="44">10GB - GHS 44</option>
+          <option value="62">15GB - GHS 62</option>
+          <option value="81">20GB - GHS 81</option>
+          <option value="120">30GB - GHS 120</option>
+          <option value="160">40GB - GHS 160</option>
+          <option value="195">50GB - GHS 195</option>
+          <option value="380">100GB - GHS 380</option>
         </select>
 
         <label for="phone">Recipient's Phone Number:</label>
         <input type="tel" id="phone" maxlength="10" placeholder="e.g. 0241234567" required>
 
-        <button type="submit">Place Order</button>
+        <button type="submit">Place Order & Pay</button>
       </form>
 
       <p id="confirmationMessage" style="margin-top: 1rem; color: green;"></p>
@@ -126,10 +142,12 @@
     <p>&copy; 2025 Real Data House. All rights reserved.</p>
   </footer>
   <script>
-    document.getElementById('orderForm').addEventListener('submit', function(event) {
+    const form = document.getElementById('orderForm');
+
+    form.addEventListener('submit', function(event) {
       event.preventDefault();
       const network = document.getElementById('network').value;
-      const bundle = document.getElementById('bundle').value;
+      const amount = parseFloat(document.getElementById('bundle').value);
       const phone = document.getElementById('phone').value;
 
       if (phone.length !== 10 || !/^0\d{9}$/.test(phone)) {
@@ -137,10 +155,21 @@
         return;
       }
 
-      document.getElementById('confirmationMessage').innerText = 
-        `✅ Order received: ${bundle} for ${network} (${phone}). You will be contacted shortly.`;
+      const handler = PaystackPop.setup({
+        key: 'pk_live_7b0b30121661c92cd7d086749cbb28be54b52420',
+        email: `customer@realdatahouse.com`,
+        amount: amount * 100, // Convert to pesewas
+        currency: "GHS",
+        reference: '' + Math.floor(Math.random() * 1000000000),
+        callback: function(response) {
+          document.getElementById('confirmationMessage').innerText = `✅ Payment successful! Bundle will be sent to ${phone}. Ref: ${response.reference}`;
+        },
+        onClose: function() {
+          alert('Transaction cancelled');
+        }
+      });
 
-      // Future: Hubtel payment API call will go here
+      handler.openIframe();
     });
   </script>
 </body>

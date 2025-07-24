@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Data House</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f8f8f8;
+      color: #333;
+    }
+    header {
+      background-color: #e60000;
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+    }
+    .tagline {
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
+    main {
+      padding: 2rem;
+    }
+    .form-container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 0.8rem;
+      margin-top: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #e60000;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #cc0000;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #222;
+      color: white;
+    }
+    .whatsapp {
+      display: block;
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .whatsapp a {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background-color: #25D366;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .whatsapp a:hover {
+      background-color: #1ebc57;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="Logo.png" alt="Real Data House Logo" style="width: 100px; margin-bottom: 10px;">
+    <h1>Real Data House</h1>
+    <p class="tagline">Fast & Reliable Data Bundle Delivery in Ghana</p>
+  </header>
+  <main>
+    <div class="form-container">
+      <h2>Buy Data Bundle</h2>
+      <form id="orderForm">
+        <label for="network">Network:</label>
+        <select id="network" required>
+          <option value="">--Choose Network--</option>
+          <option value="MTN">MTN</option>
+          <option value="Vodafone">Vodafone</option>
+          <option value="AirtelTigo">AirtelTigo</option>
+        </select>
+
+        <label for="bundle">Data Bundle:</label>
+        <select id="bundle" required>
+          <option value="">--Choose Bundle--</option>
+          <option value="1GB">1GB - GHS 5</option>
+          <option value="2GB">2GB - GHS 9</option>
+          <option value="5GB">5GB - GHS 20</option>
+        </select>
+
+        <label for="phone">Recipient's Phone Number:</label>
+        <input type="tel" id="phone" maxlength="10" placeholder="e.g. 0241234567" required>
+
+        <button type="submit">Place Order</button>
+      </form>
+
+      <p id="confirmationMessage" style="margin-top: 1rem; color: green;"></p>
+
+      <div class="whatsapp">
+        <a href="https://wa.me/233246227516" target="_blank">Need Help? Chat on WhatsApp</a>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <p>&copy; 2025 Real Data House. All rights reserved.</p>
+  </footer>
+  <script>
+    document.getElementById('orderForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const network = document.getElementById('network').value;
+      const bundle = document.getElementById('bundle').value;
+      const phone = document.getElementById('phone').value;
+
+      if (phone.length !== 10 || !/^0\d{9}$/.test(phone)) {
+        alert('Please enter a valid 10-digit Ghana phone number.');
+        return;
+      }
+
+      document.getElementById('confirmationMessage').innerText = 
+        `✅ Order received: ${bundle} for ${network} (${phone}). You will be contacted shortly.`;
+
+      // Future: Hubtel payment API call will go here
+    });
+  </script>
+</body>
+</html>
